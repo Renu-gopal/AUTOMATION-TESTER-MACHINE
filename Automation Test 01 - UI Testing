@@ -1,0 +1,33 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from PIL import Image
+import os
+import datetime
+
+resolutions = [(1920, 1080), (1280, 720)] 
+devices = ["Desktop", "Laptop"]  # Example devices
+urls = ["https://www.dealsdray.com/", "https://www.linkedin.com/"]  
+
+def take_screenshot(url, device, resolution):
+    options = Options()
+    options.add_argument(f"--window-size={resolution[0]},{resolution[1]}")
+    driver = webdriver.Chrome(options=options)
+    driver.get(url)
+    driver.maximize_window()  
+    screenshot_path = os.path.join(device, f"{resolution[0]}x{resolution[1]}", f"screenshot-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.png")
+    os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
+    driver.save_screenshot(screenshot_path)
+    driver.quit()
+
+def create_video():
+    pass
+
+for url in urls:
+    for device in devices:
+        for resolution in resolutions:
+            take_screenshot(url, device, resolution)
+
+create_video()
+
+
+create_video()
